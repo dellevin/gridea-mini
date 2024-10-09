@@ -49,6 +49,50 @@
         <a-button type="primary" :disabled="!canSubmit" @click="saveTag">{{ $t('save') }}</a-button>
       </div>
     </a-drawer>
+    <!-- 操作标签 -->
+    <a-drawer
+      :title="$t('tag')"
+      width="400"
+      :visible="visibleTAG"
+      @close="close"
+      :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
+    >
+    <!-- 开发ing -->
+      <!-- <a-collapse  :bordered="false">
+        <div v-for="(item, index) in haveTagsPosts" :key="item.fileName" >
+          <a-collapse-panel :key="`${index}`" :header="`${item.data.title}`">
+            <a-input v-model="item.data.title" />
+          </a-collapse-panel>
+          <a-collapse-panel :key="`${index}`" :header="`${item.data.tags}`">
+            <div>
+              <a-select  mode="tags"  style="width: 100%" v-model="item.data.tags">
+                <a-select-option v-for="tag in item.data.tags" :key="tag" :value="tag">{{ tag }}</a-select-option>
+              </a-select>
+            </div>
+          </a-collapse-panel>
+        </div>
+      </a-collapse> -->
+
+      <div
+        :style="{
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          width: '100%',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+        }"
+      >
+        <a-button
+          :style="{marginRight: '8px'}"
+          @click="close"
+        >
+          {{ $t('cancel') }}
+        </a-button>
+        
+      </div>
+    </a-drawer>
   </div>
 </template>
 
@@ -62,10 +106,13 @@ import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
 import { ITag } from '../../interfaces/tag'
 
-
 @Component
 export default class Tags extends Vue {
   @State('site') site!: Site
+  
+  haveTagsPosts: any[] = []
+  
+  visibleTAG = false
 
   visible = false
 
@@ -78,6 +125,7 @@ export default class Tags extends Vue {
   }
 
   slugChanged = false
+
 
   get canSubmit() {
     return this.form.name
@@ -95,6 +143,7 @@ export default class Tags extends Vue {
 
   close() {
     this.visible = false
+    this.visibleTAG = false
   }
 
   newTag() {
@@ -120,11 +169,22 @@ export default class Tags extends Vue {
   }
 
   isTagUse(tag:any, index:number) {
-    console.log(index, tag)
+    console.log(tag)
     if (tag.used) {
       const { site: { posts } } = this
-      console.log('posts', posts)
-      return;
+      // console.log('posts', posts)
+      // 清空 haveTagsPosts，确保每次只保存当前的匹配结果
+      this.haveTagsPosts = []
+      // 遍历 posts 列表
+      posts.forEach((post: any) => {
+        // 检查 post 对象中的 tags 列表是否包含 tag.name
+        if (post.data.tags && post.data.tags.includes(tag.name)) {
+          this.haveTagsPosts.push(post)
+        }
+      })
+      console.log(this.haveTagsPosts)
+      this.visibleTAG = true
+      return
     }
     this.updateTag(tag, index)
     
@@ -237,4 +297,6 @@ export default class Tags extends Vue {
     cursor: pointer;
   }
 }
+
+
 </style>

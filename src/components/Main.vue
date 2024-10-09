@@ -274,10 +274,8 @@ export default class App extends Vue {
       // console.log(result)
       if (result.success) {
         this.$message.success(`🎉  ${this.$t('syncSuccess')}`)
-
       } else {
         this.syncErrorModalVisible = true
-
       }
       this.publishLoading = false
     })
