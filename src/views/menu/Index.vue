@@ -93,7 +93,6 @@ import Draggable from 'vuedraggable'
 import { MenuTypes } from '../../helpers/enums'
 import { IMenu } from '../../interfaces/menu'
 import { IPost } from '../../interfaces/post'
-// import ga from '../../helpers/analytics'
 
 interface IForm {
   name: any
@@ -166,7 +165,6 @@ export default class Menu extends Vue {
     this.form.link = ''
     this.visible = true
 
-    // ga.event('Menu', 'Menu - new', { evLabel: this.site.setting.domain })
   }
 
   close() {
@@ -193,7 +191,6 @@ export default class Menu extends Vue {
       this.$message.success(this.$t('menuSuccess'))
       this.visible = false
 
-      // ga.event('Menu', 'Menu - save', { evLabel: this.form.name })
     })
   }
 
@@ -223,7 +220,6 @@ export default class Menu extends Vue {
     ipcRenderer.once('menu-sorted', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('menuSuccess'))
-      // ga.event('Menu', 'Menu - sort', { evLabel: '' })
     })
   }
 }

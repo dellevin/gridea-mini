@@ -16,12 +16,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index'
 import VueBus from './vue-bus'
-// import ga from './helpers/analytics'
 import './helpers/vee-validate'
 
-// ga.event('Client', 'show', {
-//   evLabel: 'startup',
-// })
+
 
 // Sentry.init({ dsn: 'https://6a6dacc57a6a4e27a88eb31596c152f8@sentry.io/1887150' })
 

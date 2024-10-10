@@ -1,16 +1,42 @@
 <template>
   <div class="">
+    
     <a-row type="flex" justify="end" class="tool-container">
+      <a-input-search
+          class="search-input"
+          placeholder="搜索标签"
+          style="width: 200px"
+          @search="onSearch"
+          v-model="keyword"
+          @blur="handleSearchInputBlur"
+          v-if="searchInputVisible"
+        />
+      <a-tooltip placement="bottom" title="搜索标签">
+          <div class="op-btn" @click="searchInputVisible = true" v-if="!keyword && !searchInputVisible">
+            <i class="zwicon-search"></i>
+          </div>
+      </a-tooltip>
       <a-tooltip placement="bottom" :title="$t('newTag')">
         <div class="op-btn" tabindex="0" @click="newTag">
           <i class="zwicon-plus"></i>
         </div>
       </a-tooltip>
     </a-row>
+
     <div class="content-container">
-      <div v-for="(tag, index) in site.tags" :key="tag.name" class="tag-wrapper">
-        <div class="tag" @click="isTagUse(tag,index)"><i class="zwicon-price-tag text-base mr-1"></i> {{ tag.name }}</div>
-        <i class="zwicon-trash delete-icon" v-if="!tag.used" @click="handleDelete(tag.name)"></i>
+      <div
+        v-for="(tag, index) in siteTags"
+        :key="tag.name"
+        class="tag-wrapper"
+      >
+        <div class="tag" @click="isTagUse(tag, index)">
+          <i class="zwicon-price-tag text-base mr-1"></i> {{ tag.name }}
+        </div>
+        <i
+          class="zwicon-trash delete-icon"
+          v-if="!tag.used"
+          @click="handleDelete(tag.name)"
+        ></i>
       </div>
     </div>
 
@@ -19,7 +45,11 @@
       width="400"
       :visible="visible"
       @close="close"
-      :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
+      :wrapStyle="{
+        height: 'calc(100% - 108px)',
+        overflow: 'auto',
+        paddingBottom: '108px'
+      }"
     >
       <a-form :form="form" layout="vertical">
         <a-form-item :label="$t('tagName')">
@@ -37,16 +67,15 @@
           width: '100%',
           padding: '10px 16px',
           background: '#fff',
-          textAlign: 'right',
+          textAlign: 'right'
         }"
       >
-        <a-button
-          :style="{marginRight: '8px'}"
-          @click="close"
-        >
-          {{ $t('cancel') }}
+        <a-button :style="{ marginRight: '8px' }" @click="close">
+          {{ $t("cancel") }}
         </a-button>
-        <a-button type="primary" :disabled="!canSubmit" @click="saveTag">{{ $t('save') }}</a-button>
+        <a-button type="primary" :disabled="!canSubmit" @click="saveTag">{{
+          $t("save")
+        }}</a-button>
       </div>
     </a-drawer>
     <!-- 操作标签 -->
@@ -55,84 +84,163 @@
       width="400"
       :visible="visibleTAG"
       @close="close"
-      :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
+      :wrapStyle="{
+        height: 'calc(100% - 108px)',
+        overflow: 'auto',
+        paddingBottom: '108px'
+      }"
     >
-    <!-- 开发ing -->
-      <!-- <a-collapse  :bordered="false">
-        <div v-for="(item, index) in haveTagsPosts" :key="item.fileName" >
-          <a-collapse-panel :key="`${index}`" :header="`${item.data.title}`">
-            <a-input v-model="item.data.title" />
-          </a-collapse-panel>
-          <a-collapse-panel :key="`${index}`" :header="`${item.data.tags}`">
-            <div>
-              <a-select  mode="tags"  style="width: 100%" v-model="item.data.tags">
-                <a-select-option v-for="tag in item.data.tags" :key="tag" :value="tag">{{ tag }}</a-select-option>
+      <div
+        v-for="(item, index) in haveTagsPosts"
+        :key="index"
+        class="post-wrapper"
+      >
+        <div class="post-content">
+          <div class="post-item">
+            <div class="label">文章名称：</div>
+            <div class="value">{{ item.data.title }}</div>
+          </div>
+
+          <div class="post-item">
+            <div class="label">标签名称：</div>
+            <div class="value">
+              <a-select
+                mode="tags"
+                style="width: 100%"
+                v-model="item.data.tags"
+                :disabled="item.isEditing"
+              >
+                <a-select-option
+                  v-for="tag in tags"
+                  :key="tag"
+                  :value="tag"
+                  >{{ tag }}</a-select-option
+                >
               </a-select>
             </div>
-          </a-collapse-panel>
-        </div>
-      </a-collapse> -->
+          </div>
 
-      <div
-        :style="{
-          position: 'absolute',
-          left: 0,
-          bottom: 0,
-          width: '100%',
-          padding: '10px 16px',
-          background: '#fff',
-          textAlign: 'right',
-        }"
-      >
-        <a-button
-          :style="{marginRight: '8px'}"
-          @click="close"
-        >
-          {{ $t('cancel') }}
-        </a-button>
-        
+          <div class="post-item">
+            
+            <a-button class="preview-btn" block @click="clickTitleName(item)">
+              <i class="zwicon-eye"></i>
+              查看文章
+            </a-button>
+            <a-button class="preview-btn" block @click="editTagByTags(index)" v-if="item.isEditing">
+              <i class="zwicon-edit-circle"></i>
+              编辑标签
+            </a-button>
+            <a-button class="preview-btn" block @click="saveTagByTags(item, index)" v-else>
+              <i class="zwicon-checkmark"></i>
+              保存标签
+            </a-button>
+          </div>
+
+        </div>
       </div>
+
+
     </a-drawer>
+
+
+    <fade-transition :duration="100">
+      <article-update
+        v-if="articleUpdateVisible"
+        :visible="articleUpdateVisible"
+        :articleFileName="currentArticleFileName"
+        @close="closeArticle"
+        @fetchData="$bus.$emit('site-reload')"
+      ></article-update>
+    </fade-transition>
   </div>
 </template>
 
 <script lang="ts">
-import { ipcRenderer, IpcRendererEvent } from 'electron'
-import { Vue, Component } from 'vue-property-decorator'
+import {
+  ipcRenderer, IpcRendererEvent, shell, clipboard, remote,
+} from 'electron'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import shortid from 'shortid'
+import { FadeTransition } from 'vue2-transitions'
 import slug from '../../helpers/slug'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
 import { ITag } from '../../interfaces/tag'
+import ArticleUpdate from './ArticleUpdate.vue'
+import { IPost } from '../../interfaces/post'
 
-@Component
+interface SiteTag {
+  name: string
+  used: boolean
+  slug?: string
+  index?: number
+}
+
+@Component({
+  components: {
+    ArticleUpdate,
+    FadeTransition,
+  },
+})
 export default class Tags extends Vue {
-  @State('site') site!: Site
-  
-  haveTagsPosts: any[] = []
-  
-  visibleTAG = false
+  @State('site') site!: Site;
 
-  visible = false
+  siteTags: SiteTag[] = [];
 
-  isUpdate = false
+  searchInputVisible = false
+
+  keyword = ''
+
+  articleUpdateVisible = false
+
+  currentArticleFileName = ''
+
+  haveTagsPosts: any[] = [];
+
+  visibleTAG = false;
+
+  visible = false;
+
+  isUpdate = false;
 
   form = {
     name: null,
     slug: '',
     index: -1,
+  };
+
+  slugChanged = false;
+  
+  mounted() {
+    this.siteTags = this.site.tags;
+    this.$watch(
+      () => this.site.tags,
+      (newTags) => {
+        this.siteTags = newTags;
+      }
+    );
   }
-
-  slugChanged = false
-
 
   get canSubmit() {
     return this.form.name
   }
 
+  onSearch(val: string) {
+    this.keyword = val
+  }
+
+  handleSearchInputBlur() {
+    if (!this.keyword) {
+      this.searchInputVisible = false
+    }
+  }
+
   handleNameChange(val: string) {
-    if (!this.slugChanged && this.site.themeConfig.tagUrlFormat === UrlFormats.Slug) {
+    if (
+      !this.slugChanged
+      && this.site.themeConfig.tagUrlFormat === UrlFormats.Slug
+    ) {
       this.form.slug = slug(this.form.name)
     }
   }
@@ -143,6 +251,7 @@ export default class Tags extends Vue {
 
   close() {
     this.visible = false
+    // 标签编辑
     this.visibleTAG = false
   }
 
@@ -168,31 +277,77 @@ export default class Tags extends Vue {
     }
   }
 
-  isTagUse(tag:any, index:number) {
-    console.log(tag)
+  tagUsed = ''
+
+  isTagUse(tag: any, index: number) {
+    // console.log(tag)
+    this.tagUsed = ''
     if (tag.used) {
-      const { site: { posts } } = this
-      // console.log('posts', posts)
-      // 清空 haveTagsPosts，确保每次只保存当前的匹配结果
-      this.haveTagsPosts = []
-      // 遍历 posts 列表
-      posts.forEach((post: any) => {
-        // 检查 post 对象中的 tags 列表是否包含 tag.name
-        if (post.data.tags && post.data.tags.includes(tag.name)) {
-          this.haveTagsPosts.push(post)
-        }
-      })
-      console.log(this.haveTagsPosts)
+      this.tagUsed = tag.name
+      this.updateTagList()
       this.visibleTAG = true
       return
     }
     this.updateTag(tag, index)
-    
-    // tag.used ? null : this.updateTag(tag, index)
   }
 
+  clickTitleName(post: IPost) {
+    this.articleUpdateVisible = true
+    this.currentArticleFileName = post.fileName
+  }
+
+  closeArticle() {
+    this.articleUpdateVisible = false
+    this.currentArticleFileName = ''
+    this.updateTagList()
+  }
+
+  editTagByTags(index: number) {
+    this.$set(this.haveTagsPosts[index], 'isEditing', false)
+  }
+
+  saveTagByTags(post:IPost, index: any) {
+    // const updatedTags = post.data.tags
+    this.savePostTags(post)
+    this.$set(this.haveTagsPosts[index], 'isEditing', true)
+  }
+
+  savePostTags(post: IPost) {
+    // 将更新后的标签通过 IPC 通信或 API 发送到后端
+    // console.log(post)
+    ipcRenderer.send('post-tags-update', post)
+    // 监听后端保存成功的事件
+    ipcRenderer.once('post-tags-updated', (event, result) => {
+      // console.log(result)
+      if(result){
+        this.$message.success('标签已更新')
+      }else{
+        this.$message.warning('标签更新失败')
+      }
+      this.$bus.$emit('site-reload')
+    })
+  }
+
+  get tags() {
+    return this.site.tags.map((tag: any) => tag.name)
+  }
+
+  // 更新tag列表
+  updateTagList() {
+    this.haveTagsPosts = []
+    const postsCopy = JSON.parse(JSON.stringify(this.site.posts)) // 深拷贝
+    postsCopy.forEach((post: any) => {
+      if (post.data.tags && post.data.tags.includes(this.tagUsed)) {
+        this.$set(post, 'isEditing', true)
+        this.haveTagsPosts.push(post)
+      }
+    })
+    this.$bus.$emit('site-reload')
+  }
+
+
   updateTag(tag: any, index: number) {
-    console.log(tag)
+    // console.log(tag)
     this.visible = true
     this.isUpdate = true
     this.form.name = tag.name
@@ -213,8 +368,9 @@ export default class Tags extends Vue {
       tags.splice(this.form.index, 1)
     }
 
-
-    const foundTagIndex = tags.findIndex((tag: ITag) => tag.name === this.form.name || tag.slug === this.form.slug)
+    const foundTagIndex = tags.findIndex(
+      (tag: ITag) => tag.name === this.form.name || tag.slug === this.form.slug,
+    )
     if (foundTagIndex !== -1) {
       return false
     }
@@ -236,8 +392,6 @@ export default class Tags extends Vue {
       this.$bus.$emit('site-reload')
       this.$message.success('标签已保存')
       this.visible = false
-
-      // ga.event('Tags', 'Tags - save', { evLabel: this.form.name })
     })
   }
 
@@ -250,13 +404,27 @@ export default class Tags extends Vue {
       cancelText: 'No',
       onOk: () => {
         ipcRenderer.send('tag-delete', tagValue)
-        ipcRenderer.once('tag-deleted', (event: IpcRendererEvent, result: any) => {
-          this.$bus.$emit('site-reload')
-          this.$message.success('标签已删除')
-          this.visible = false
-        })
+        ipcRenderer.once(
+          'tag-deleted',
+          (event: IpcRendererEvent, result: any) => {
+            this.$bus.$emit('site-reload')
+            this.$message.success('标签已删除')
+            this.visible = false
+          },
+        )
       },
     })
+  }
+
+  @Watch('keyword')
+  handleKeywordChange(val: string) {
+    // console.log(this.siteTags)
+    if (val) {
+      // 使用 filter 过滤出包含 val 的标签
+      this.siteTags = this.site.tags.filter((tag: any) => tag.name.includes(val))
+      return
+    }
+    this.siteTags = this.site.tags
   }
 }
 </script>
@@ -299,4 +467,50 @@ export default class Tags extends Vue {
 }
 
 
+.post-wrapper {
+  padding: 16px;
+  margin-bottom: 35px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  background-color: #fafafa;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.post-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .label {
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .value {
+    font-size: 14px;
+    color: #666;
+    width: 70%;
+  }
+}
+.preview-btn {
+  width: 40%;
+  border-radius: 20px;
+  background: #fff;
+  transition: all 0.3s;
+  &:hover {
+    background: #fafafa;
+  }
+}
 </style>

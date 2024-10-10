@@ -230,7 +230,7 @@ import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
 import shortcutKeys from '../../helpers/shortcut-keys'
-// import ga from '../../helpers/analytics'
+
 
 @Component({
   components: {
@@ -384,7 +384,6 @@ export default class ArticleUpdate extends Vue {
       }
     }
 
-    // ga.event('Post', 'Post - set-local-feature-image', {})
     return false
   }
 
@@ -511,13 +510,12 @@ export default class ArticleUpdate extends Vue {
       this.$emit('fetchData')
     })
 
-    // ga.event('Post', 'Post - click-save-draft', {})
   }
 
   savePost() {
     if (!this.canSubmit) return
     const form = this.formatForm(true)
-    // console.log(form)
+    console.log(form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: IpcRendererEvent, data: any) => {
       this.updatePostSavedStatus()
@@ -525,7 +523,6 @@ export default class ArticleUpdate extends Vue {
       this.$emit('fetchData')
     })
 
-    // ga.event('Post', 'Post - click-save-post', {})
   }
 
   normalSavePost() {
@@ -541,21 +538,17 @@ export default class ArticleUpdate extends Vue {
 
   insertImage() {
     this.$refs.uploadInput.click()
-    // ga.event('Post', 'Post - click-insert-image', {})
   }
 
   handlePostSettingClick() {
     this.postSettingsVisible = true
 
-    // ga.event('Post', 'Post - click-post-setting', {})
   }
 
   handleInfoClick() {
-    // ga.event('Post', 'Post - click-post-info', {})
   }
 
   handleEmojiClick() {
-    // ga.event('Post', 'Post - click-emoji-card', {})
   }
 
   uploadImageFiles(files: any[]) {
@@ -579,7 +572,6 @@ export default class ArticleUpdate extends Vue {
       text: '\n<!-- more -->\n',
     }])
 
-    // ga.event('Post', 'Post - click-add-more', {})
   }
 
   handleEmojiSelect(emoji: any) {
@@ -596,7 +588,6 @@ export default class ArticleUpdate extends Vue {
       Prism.highlightAll()
     }, 1)
 
-    // ga.event('Post', 'Post - click-preview-post', {})
   }
 
   shortPreviewPost(event: any) {

@@ -116,7 +116,6 @@ import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import FooterBox from '../../../components/FooterBox/Index.vue'
-// import ga from '../../../helpers/analytics'
 import { ISetting } from '../../../interfaces/setting'
 
 @Component({
@@ -237,7 +236,6 @@ export default class BasicSetting extends Vue {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('basicSettingSuccess'))
 
-      // ga.event('Setting', 'Setting - save', { evLabel: this.form.platform })
     })
   }
 
@@ -254,18 +252,15 @@ export default class BasicSetting extends Vue {
         this.detectLoading = true
         ipcRenderer.send('remote-detect')
 
-        // ga.event('Setting', 'Setting - detect', { evLabel: this.form.platform })
         ipcRenderer.once('remote-detected', (event: IpcRendererEvent, result: any) => {
           console.log('检测结果', result)
           this.detectLoading = false
           if (result.success) {
             this.$message.success(this.$t('connectSuccess'))
 
-            // ga.event('Setting', 'Setting - detect-success', { evLabel: this.form.platform })
           } else {
             this.$message.error(this.$t('connectFailed'))
 
-            // ga.event('Setting', 'Setting - detect-failed', { evLabel: this.form.platform })
           }
         })
       })

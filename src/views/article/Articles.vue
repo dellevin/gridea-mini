@@ -169,8 +169,6 @@ export default class Articles extends Vue {
   newArticle() {
     this.articleUpdateVisible = true
     this.currentArticleFileName = ''
-
-    // ga.event('Post', 'Post - new', { evLabel: this.site.setting.domain })
   }
 
   editPost(post: IPost) {

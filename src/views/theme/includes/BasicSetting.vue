@@ -132,7 +132,7 @@ import {
   DEFAULT_POST_PATH,
   DEFAULT_TAG_PATH,
 } from '../../../helpers/constants'
-// import ga from '../../../helpers/analytics'
+
 
 @Component({
   name: 'ThemeBasicSetting',
@@ -185,7 +185,7 @@ export default class ThemeBasicSetting extends Vue {
       this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=basic' } })
       this.$message.success(this.$t('themeConfigSaved'))
 
-      // ga.event('Theme', 'Theme - save', { evLabel: this.form.themeName })
+
     })
   }
 

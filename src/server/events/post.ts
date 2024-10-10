@@ -4,7 +4,7 @@ import Posts from '../posts'
 
 export default class PostEvents {
   constructor(appInstance: any) {
-    ipcMain.removeAllListeners('app-post-create')
+    ipcMain.removeAllListeners('app-post-create')// 文章创建
     ipcMain.removeAllListeners('app-post-created')
     ipcMain.removeAllListeners('app-post-delete')
     ipcMain.removeAllListeners('app-post-deleted')
@@ -12,6 +12,10 @@ export default class PostEvents {
     ipcMain.removeAllListeners('app-post-list-deleted')
     ipcMain.removeAllListeners('image-upload')
     ipcMain.removeAllListeners('image-uploaded')
+
+    ipcMain.removeAllListeners('post-tags-update')// 标签更新
+    ipcMain.removeAllListeners('post-tags-updated')
+
 
     const posts = new Posts(appInstance)
 
@@ -38,6 +42,11 @@ export default class PostEvents {
       console.log('执行了上传图片', files)
       const data = await posts.uploadImages(files)
       event.sender.send('image-uploaded', data)
+    })
+
+    ipcMain.on('post-tags-update', async (event:IpcMainEvent, post: IPostDb) => {
+      const data = await posts.upadateTags(post)
+      event.sender.send('post-tags-updated', data)
     })
   }
 }

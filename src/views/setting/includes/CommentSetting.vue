@@ -28,7 +28,6 @@ import { State } from 'vuex-class'
 import GitalkSetting from './GitalkSetting.vue'
 import DisqusSetting from './DisqusSetting.vue'
 import FooterBox from '../../../components/FooterBox/Index.vue'
-// import ga from '../../../helpers/analytics'
 
 @Component({
   components: {
@@ -73,7 +72,6 @@ export default class CommentSetting extends Vue {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('commentSettingSuccess'))
 
-      // ga.event('Setting', 'Setting - comment-save', { evLabel: this.form.commentPlatform })
     })
   }
 }

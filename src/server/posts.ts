@@ -10,6 +10,17 @@ import { IPost, IPostDb } from './interfaces/post'
 import ContentHelper from '../helpers/content-helper'
 import { formatYamlString } from '../helpers/utils'
 
+interface FrontMatterData {
+  isTop?: boolean
+  fileName?: string
+  feature?: any
+  hideInList?: boolean
+  published?: boolean
+  date?: string
+  title?: string
+  tags: string[]
+}
+
 Bluebird.promisifyAll(fs)
 
 export default class Posts extends Model {
@@ -243,5 +254,38 @@ ${content}`
       results.push(filePath)
     }
     return results
+  }
+
+  async upadateTags(post: IPostDb) {
+    try {
+      // 1. 根据文件名读取指定的 Markdown 文件
+      const filePath = `${this.postDir}/${post.fileName}.md`
+      const fileContent = await fse.readFile(filePath, 'utf8')
+      // 2. 使用 `matter` 解析 Markdown 文件中的 YAML 前置数据
+      const postMatter = matter(fileContent)
+      const data = postMatter.data as  FrontMatterData
+      // 3. 更新 `tags` 字段
+      // @ts-ignore
+      data.tags = post.data.tags
+      // console.log(data)
+      const updatedContent =  `---
+title: '${data.title}'
+date: ${data.date}
+tags: [${data.tags.join(',')}]
+published: ${data.published || false}
+hideInList: ${data.hideInList || false}
+feature: ${data.feature || ''}
+isTop: ${data.isTop || false}
+---
+${postMatter.content}`
+     
+      // console.log(updatedContent)
+      // 5. 将更新后的内容写回文件
+      await fse.writeFile(filePath, updatedContent)
+      return true
+    } catch (e) {
+      console.error('更新标签时发生错误:', e)
+      return false
+    }
   }
 }

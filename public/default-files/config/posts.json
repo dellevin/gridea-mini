@@ -1,6 +1,47 @@
 {
-  "posts": [],
-  "tags": [],
+  "posts": [
+    {
+      "content": "> 欢迎来到我的小站呀，很高兴遇见你！🤝\r\n\r\n## 🏠 关于本站\r\n\r\n## 👨‍💻 博主是谁\r\n\r\n## ⛹ 兴趣爱好\r\n\r\n## 📬 联系我呀\r\n",
+      "data": {
+        "title": "关于",
+        "date": "2019-01-25 19:09:48",
+        "tags": null,
+        "published": true,
+        "hideInList": true,
+        "feature": null,
+        "isTop": false
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "about"
+    },
+    {
+      "content": "👏  欢迎使用 **IDEA** ！  \r\n✍️  **IDEA** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意...\r\n🔨  本软件由开源软件[Gridea](https://github.com/getgridea/gridea)改动而来\r\n\r\n<!-- more -->\r\n## 特性👇\r\n📝  你可以使用最酷的 **Markdown** 语法，进行快速创作  \r\n\r\n🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片  \r\n\r\n🏷️  你可以对文章进行标签分组  \r\n\r\n📋  你可以自定义菜单，甚至可以创建外部链接菜单  \r\n\r\n💻  你可以在 **Windows**，**MacOS** 或 **Linux** 设备上使用此客户端  \r\n\r\n🌎  你可以使用 **𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌** 或 **Coding Pages** 向世界展示\r\n\r\n🇬🇧  你可以使用**中文简体**或**英语**  \r\n\r\n🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力  \r\n\r\n🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步  \r\n\r\n🌱 当然 **IDEA** 还很年轻，有很多不足，但请相信，它会不停向前 🏃\r\n\r\n未来，它一定会成为你离不开的伙伴\r\n\r\n尽情发挥你的才华吧！\r\n\r\n😘 Enjoy~\r\n",
+      "data": {
+        "title": "Hello IDEA",
+        "date": "2018-12-12 00:00:00",
+        "tags": [
+          "IDEA"
+        ],
+        "published": true,
+        "hideInList": false,
+        "feature": "/post-images/hello-idea.jpg",
+        "isTop": false
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "👏  欢迎使用 **IDEA** ！  \r\n✍️  **IDEA** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意...\r\n🔨  本软件由开源软件[Gridea](https://github.com/getgridea/gridea)改动而来\r",
+      "fileName": "hello-idea"
+    }
+  ],
+  "tags": [
+    {
+      "name": "IDEA",
+      "slug": "idea",
+      "used": true
+    }
+  ],
   "menus": [
     {
       "link": "/",

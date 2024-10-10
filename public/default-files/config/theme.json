@@ -1,17 +1,20 @@
 {
   "config": {
-    "footerInfo": "Powered by <a href=\"https://github.com/getgridea/gridea\" target=\"_blank\">Gridea</a>",
-    "postPageSize": 10,
     "archivesPageSize": 50,
+    "archivesPath": "archives",
+    "dateFormat": "YYYY-MM-DD",
+    "feedCount": 10,
+    "feedFullText": true,
+    "footerInfo": "Powered by <a href=\"https://www.ittoolman.top/\" target=\"_blank\">IDEA</a>",
+    "postPageSize": 10,
+    "postPath": "post",
+    "postUrlFormat": "SLUG",
     "showFeatureImage": true,
     "siteDescription": "温故而知新",
-    "siteName": "Gridea",
-    "themeName": "notes",
-    "dateFormat": "YYYY-MM-DD",
-    "postUrlFormat": "SLUG",
-    "tagUrlFormat": "SHORT_ID",
-    "feedCount": 10,
-    "feedFullText": true
+    "siteName": "IDEA",
+    "tagPath": "tag",
+    "tagUrlFormat": "SLUG",
+    "themeName": "notes"
   },
   "customConfig": {}
 }
