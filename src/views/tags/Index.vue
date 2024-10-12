@@ -213,13 +213,13 @@ export default class Tags extends Vue {
   slugChanged = false;
   
   mounted() {
-    this.siteTags = this.site.tags;
+    this.siteTags = this.site.tags
     this.$watch(
       () => this.site.tags,
       (newTags) => {
-        this.siteTags = newTags;
-      }
-    );
+        this.siteTags = newTags
+      },
+    )
   }
 
   get canSubmit() {
@@ -285,6 +285,7 @@ export default class Tags extends Vue {
     if (tag.used) {
       this.tagUsed = tag.name
       this.updateTagList()
+      this.keyword = ''
       this.visibleTAG = true
       return
     }
@@ -314,16 +315,15 @@ export default class Tags extends Vue {
 
   savePostTags(post: IPost) {
     // 将更新后的标签通过 IPC 通信或 API 发送到后端
-    // console.log(post)
     ipcRenderer.send('post-tags-update', post)
     // 监听后端保存成功的事件
     ipcRenderer.once('post-tags-updated', (event, result) => {
-      // console.log(result)
-      if(result){
+      if (result) {
         this.$message.success('标签已更新')
-      }else{
+      } else {
         this.$message.warning('标签更新失败')
       }
+      // this.updateTagList()
       this.$bus.$emit('site-reload')
     })
   }

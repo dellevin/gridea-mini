@@ -71,7 +71,6 @@ export default class CommentSetting extends Vue {
     ipcRenderer.once('comment-setting-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('commentSettingSuccess'))
-
     })
   }
 }

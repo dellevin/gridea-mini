@@ -21,6 +21,7 @@ export default class MonacoMarkdownEditor extends Vue {
 
 
   editor: any = null
+  // editor: any = monaco.editor.IStandaloneCodeEditor | null = null
 
   prevLineCount: number = -1
 

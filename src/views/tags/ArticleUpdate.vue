@@ -509,7 +509,6 @@ export default class ArticleUpdate extends Vue {
       this.$message.success(`🎉  ${this.$t('draftSuccess')}`)
       this.$emit('fetchData')
     })
-
   }
 
   savePost() {
@@ -522,7 +521,6 @@ export default class ArticleUpdate extends Vue {
       this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
       this.$emit('fetchData')
     })
-
   }
 
   normalSavePost() {
@@ -542,7 +540,6 @@ export default class ArticleUpdate extends Vue {
 
   handlePostSettingClick() {
     this.postSettingsVisible = true
-
   }
 
   handleInfoClick() {
@@ -571,7 +568,6 @@ export default class ArticleUpdate extends Vue {
       range: monaco.Range.fromPositions(this.$refs.monacoMarkdownEditor.editor.getPosition()),
       text: '\n<!-- more -->\n',
     }])
-
   }
 
   handleEmojiSelect(emoji: any) {
@@ -587,7 +583,6 @@ export default class ArticleUpdate extends Vue {
       this.$refs.previewContainer.innerHTML = markdown.render(this.form.content)
       Prism.highlightAll()
     }, 1)
-
   }
 
   shortPreviewPost(event: any) {

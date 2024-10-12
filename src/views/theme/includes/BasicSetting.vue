@@ -184,8 +184,6 @@ export default class ThemeBasicSetting extends Vue {
       await this.$bus.$emit('site-reload')
       this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=basic' } })
       this.$message.success(this.$t('themeConfigSaved'))
-
-
     })
   }
 

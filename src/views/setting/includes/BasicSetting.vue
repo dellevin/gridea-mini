@@ -235,7 +235,6 @@ export default class BasicSetting extends Vue {
     ipcRenderer.once('setting-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('basicSettingSuccess'))
-
     })
   }
 
@@ -257,10 +256,8 @@ export default class BasicSetting extends Vue {
           this.detectLoading = false
           if (result.success) {
             this.$message.success(this.$t('connectSuccess'))
-
           } else {
             this.$message.error(this.$t('connectFailed'))
-
           }
         })
       })

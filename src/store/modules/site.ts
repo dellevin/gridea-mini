@@ -7,6 +7,8 @@ import { ISetting, ICommentSetting } from '../../interfaces/setting'
 import {
   DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT, DEFAULT_ARCHIVES_PATH, DEFAULT_POST_PATH, DEFAULT_TAG_PATH,
 } from '../../helpers/constants'
+import { extractUniqueTags } from '../../utils/logUtils'
+
 
 export interface Site {
   appDir: string
@@ -87,7 +89,7 @@ const siteState: Site = {
 
 const mutations: MutationTree<Site> = {
   updateSite(state, siteData: Site) {
-    console.log('data', siteData)
+    // console.log('data', siteData)
     state.appDir = siteData.appDir
     state.posts = siteData.posts
     state.tags = siteData.tags

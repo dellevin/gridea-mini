@@ -164,6 +164,8 @@ export default class Articles extends Vue {
   close() {
     this.articleUpdateVisible = false
     this.currentArticleFileName = ''
+    this.selectedPost = []
+    // this.$bus.$emit('site-reload')
   }
 
   newArticle() {

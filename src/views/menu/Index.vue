@@ -155,7 +155,7 @@ export default class Menu extends Vue {
 
   mounted() {
     this.menuList = [...this.site.menus]
-    console.log(this.menuList)
+    // console.log(this.menuList)
   }
 
   newMenu() {
@@ -164,7 +164,6 @@ export default class Menu extends Vue {
     this.form.openType = MenuTypes.Internal
     this.form.link = ''
     this.visible = true
-
   }
 
   close() {
@@ -190,7 +189,6 @@ export default class Menu extends Vue {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('menuSuccess'))
       this.visible = false
-
     })
   }
 

@@ -13,13 +13,11 @@ export default class PostEvents {
     ipcMain.removeAllListeners('image-upload')
     ipcMain.removeAllListeners('image-uploaded')
 
-    ipcMain.removeAllListeners('post-tags-update')// 标签更新
-    ipcMain.removeAllListeners('post-tags-updated')
-
 
     const posts = new Posts(appInstance)
 
     ipcMain.on('app-post-create', async (event: IpcMainEvent, post: IPost) => {
+      console.log(post)
       const data = await posts.savePostToFile(post)
       event.sender.send('app-post-created', data)
     })
@@ -42,11 +40,6 @@ export default class PostEvents {
       console.log('执行了上传图片', files)
       const data = await posts.uploadImages(files)
       event.sender.send('image-uploaded', data)
-    })
-
-    ipcMain.on('post-tags-update', async (event:IpcMainEvent, post: IPostDb) => {
-      const data = await posts.upadateTags(post)
-      event.sender.send('post-tags-updated', data)
     })
   }
 }

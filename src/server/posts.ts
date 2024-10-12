@@ -174,7 +174,7 @@ ${postMatter.content}`
     const extendName = (post.featureImage.name || 'jpg').split('.').pop()
 
     post.title = formatYamlString(post.title)
-
+    // console.log(post)
     const mdStr = `---
 title: '${post.title}'
 date: ${post.date}
@@ -203,7 +203,6 @@ ${content}`
 
       // Write file must use fse, beause fs.writeFile need callback
       await fse.writeFile(`${this.postDir}/${post.fileName}.md`, mdStr)
-
       // Clean the old file
       if (post.deleteFileName) {
         fse.removeSync(`${this.postDir}/${post.deleteFileName}.md`)
@@ -263,12 +262,12 @@ ${content}`
       const fileContent = await fse.readFile(filePath, 'utf8')
       // 2. 使用 `matter` 解析 Markdown 文件中的 YAML 前置数据
       const postMatter = matter(fileContent)
-      const data = postMatter.data as  FrontMatterData
+      const data = postMatter.data as FrontMatterData
       // 3. 更新 `tags` 字段
       // @ts-ignore
       data.tags = post.data.tags
       // console.log(data)
-      const updatedContent =  `---
+      const updatedContent = `---
 title: '${data.title}'
 date: ${data.date}
 tags: [${data.tags.join(',')}]

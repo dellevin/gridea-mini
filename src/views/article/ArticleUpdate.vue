@@ -408,6 +408,7 @@ export default class ArticleUpdate extends Vue {
 
   updatePostSavedStatus() {
     this.postStatusTip = `${this.$t('savedIn')} ${moment().format('HH:mm:ss')}`
+    // console.log(this.postStatusTip )
     this.changedAfterLastSave = false
   }
 
@@ -510,8 +511,6 @@ export default class ArticleUpdate extends Vue {
       this.$message.success(`🎉  ${this.$t('draftSuccess')}`)
       this.$emit('fetchData')
     })
-
-    // ga.event('Post', 'Post - click-save-draft', {})
   }
 
   savePost() {
@@ -520,12 +519,11 @@ export default class ArticleUpdate extends Vue {
     // console.log(form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: IpcRendererEvent, data: any) => {
+      console.log(data)
       this.updatePostSavedStatus()
       this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
       this.$emit('fetchData')
     })
-
-    // ga.event('Post', 'Post - click-save-post', {})
   }
 
   normalSavePost() {
