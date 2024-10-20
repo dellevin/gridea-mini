@@ -9,7 +9,7 @@ import Tags from './views/tags/Index.vue'
 import Theme from './views/theme/Index.vue'
 import Setting from './views/setting/Index.vue'
 import Loading from './views/loading/Index.vue'
-// import ga from './helpers/analytics'
+import ImageList from './views/imageList/Index.vue'
 
 Vue.use(Router)
 
@@ -35,6 +35,11 @@ const router = new Router({
           path: '/tags',
           name: 'tags',
           component: Tags,
+        },
+        {
+          path: '/imageList',
+          name: 'imageList',
+          component: ImageList,
         },
         {
           path: '/theme',

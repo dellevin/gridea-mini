@@ -161,6 +161,11 @@ export default class App extends Vue {
         router: '/tags',
       },
       {
+        icon: 'ri-image-line',
+        text: '图片',
+        router: '/imageList',
+      },
+      {
         icon: 'ri-t-shirt-line',
         text: this.$t('theme'),
         router: '/theme',

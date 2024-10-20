@@ -120,20 +120,19 @@
             </div>
           </div>
 
-          <div class="post-item">
-            
+          <div class="post-item-button">
             <a-button class="preview-btn" block @click="clickTitleName(item)">
               <i class="zwicon-eye"></i>
               查看文章
             </a-button>
-            <a-button class="preview-btn" block @click="editTagByTags(index)" v-if="item.isEditing">
+           <!-- <a-button class="preview-btn" block @click="editTagByTags(index)" v-if="item.isEditing">
               <i class="zwicon-edit-circle"></i>
               编辑标签
             </a-button>
             <a-button class="preview-btn" block @click="saveTagByTags(item, index)" v-else>
               <i class="zwicon-checkmark"></i>
               保存标签
-            </a-button>
+            </a-button>-->
           </div>
 
         </div>
@@ -469,7 +468,7 @@ export default class Tags extends Vue {
 
 .post-wrapper {
   padding: 16px;
-  margin-bottom: 35px;
+  margin-bottom: 10px;
   border: 1px solid #e8e8e8;
   border-radius: 8px;
   background-color: #fafafa;
@@ -483,7 +482,6 @@ export default class Tags extends Vue {
 .post-content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .post-item {
@@ -493,7 +491,7 @@ export default class Tags extends Vue {
   margin-bottom: 10px;
 
   .label {
-    font-weight: 500;
+    font-weight: 800;
     font-size: 14px;
     color: #333;
   }
@@ -501,8 +499,14 @@ export default class Tags extends Vue {
   .value {
     font-size: 14px;
     color: #666;
-    width: 70%;
+    width: 75%;
   }
+}
+.post-item-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
 }
 .preview-btn {
   width: 40%;
